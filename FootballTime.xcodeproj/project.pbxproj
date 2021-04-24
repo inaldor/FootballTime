@@ -18,6 +18,9 @@
 		CD6A4F8C263315DB002DFBAB /* WinnerTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6A4F8B263315DB002DFBAB /* WinnerTeamViewController.swift */; };
 		CDD3FB5C26335BC9006EF7D3 /* WinnerTeamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD3FB5B26335BC9006EF7D3 /* WinnerTeamViewModel.swift */; };
 		CDD3FB6126335BE3006EF7D3 /* WinnerTeamDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD3FB6026335BE3006EF7D3 /* WinnerTeamDataModel.swift */; };
+		CDD3FB812634A2D3006EF7D3 /* WinnerDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD3FB802634A2D3006EF7D3 /* WinnerDataModel.swift */; };
+		CDD3FB862634A546006EF7D3 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD3FB852634A546006EF7D3 /* Service.swift */; };
+		CDD3FB8C2634BF96006EF7D3 /* Date+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD3FB8B2634BF96006EF7D3 /* Date+Formatting.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +58,9 @@
 		CD6A4F8B263315DB002DFBAB /* WinnerTeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinnerTeamViewController.swift; sourceTree = "<group>"; };
 		CDD3FB5B26335BC9006EF7D3 /* WinnerTeamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinnerTeamViewModel.swift; sourceTree = "<group>"; };
 		CDD3FB6026335BE3006EF7D3 /* WinnerTeamDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinnerTeamDataModel.swift; sourceTree = "<group>"; };
+		CDD3FB802634A2D3006EF7D3 /* WinnerDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinnerDataModel.swift; sourceTree = "<group>"; };
+		CDD3FB852634A546006EF7D3 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		CDD3FB8B2634BF96006EF7D3 /* Date+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatting.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +115,7 @@
 				CD6A4F952633164D002DFBAB /* ViewModel */,
 				CD6A4F9426331643002DFBAB /* Model */,
 				CD6A4F932633163C002DFBAB /* Service */,
+				CDD3FB8A2634BF63006EF7D3 /* Extensions */,
 				CD6A4F58263219AD002DFBAB /* AppDelegate.swift */,
 				CD6A4F5A263219AD002DFBAB /* SceneDelegate.swift */,
 				CD6A4F5E263219AD002DFBAB /* Main.storyboard */,
@@ -140,6 +147,7 @@
 		CD6A4F932633163C002DFBAB /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				CDD3FB852634A546006EF7D3 /* Service.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -148,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				CDD3FB6026335BE3006EF7D3 /* WinnerTeamDataModel.swift */,
+				CDD3FB802634A2D3006EF7D3 /* WinnerDataModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -167,6 +176,14 @@
 				CD6A4F8B263315DB002DFBAB /* WinnerTeamViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		CDD3FB8A2634BF63006EF7D3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CDD3FB8B2634BF96006EF7D3 /* Date+Formatting.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -299,6 +316,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDD3FB812634A2D3006EF7D3 /* WinnerDataModel.swift in Sources */,
+				CDD3FB862634A546006EF7D3 /* Service.swift in Sources */,
+				CDD3FB8C2634BF96006EF7D3 /* Date+Formatting.swift in Sources */,
 				CD6A4F5D263219AD002DFBAB /* HomeViewController.swift in Sources */,
 				CD6A4F59263219AD002DFBAB /* AppDelegate.swift in Sources */,
 				CDD3FB5C26335BC9006EF7D3 /* WinnerTeamViewModel.swift in Sources */,
