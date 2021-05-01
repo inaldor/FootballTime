@@ -12,75 +12,187 @@ class WinnerTeamViewController: UIViewController {
     // MARK: Properties
     
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var victoriesLabel: UILabel!
+    @IBOutlet weak var nameTeamLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var tlaLabel: UILabel!
+    @IBOutlet weak var websiteLabel: UILabel!
+    @IBOutlet weak var venueLabel: UILabel!
     
-    //var winnerTeamViewModel: WinnerTeamViewModel = WinnerTeamViewModel()
+    var teamsInfo: [Team?] = []
     
-    var winnerTeamViewModel: WinnerTeamViewModel?
+    private let apiManager = APIManager()
+    
+    private(set) var winnerTeamViewModel: WinnerTeamViewModel?
+    
+    var searchResult: Matches? {
+        didSet {
+            guard let searchResult = searchResult else { return }
+            winnerTeamViewModel = WinnerTeamViewModel.init(matches: searchResult)
+            DispatchQueue.main.async {
+                self.updateLabels()
+                //self.getTeamInfo(teams: self.winnerTeamViewModel?.winnerTeams ?? [])
+                
+                let teamsArray = self.winnerTeamViewModel?.winnerTeams ?? []
+                
+                //for team in teamsArray {
+                    
+                self.getTeamInfo(teams: teamsArray)
+                        
+                        
+                        //updateTeamLabels()
+                        
+                        //teamsInfo.append(teams!)
+                    
+                        
+                        
+                        //})
+                //}
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        nameLabel.text = winnerTeamViewModel?.name
-        victoriesLabel.text = winnerTeamViewModel?.victories
-        addressLabel.text = winnerTeamViewModel?.address
-        
-        ok()
+        getMatches()
+         
+    }
+}
+    
+extension WinnerTeamViewController {
+    
+    private func updateLabels() {
+        guard let winnerTeamViewModel = winnerTeamViewModel else { return }
+        nameLabel.text = winnerTeamViewModel.name
     }
     
-    func ok() {
-        
-        let configuration = URLSessionConfiguration.default
-        
-        configuration.timeoutIntervalForRequest = 30
-        configuration.timeoutIntervalForResource = 30
-        
-        let session = URLSession(configuration: configuration)
-        
-        let url = URL(string: "https://api.football-data.org/v2/competitions/BL1/matches?status=FINISHED")!
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("e38530d104d94239bddf2c86e38837bf", forHTTPHeaderField: "X-Auth-Token")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("*/*", forHTTPHeaderField: "Accept")
-        
-        let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-            
-            if error != nil || data == nil {
-                print("Client error!")
+    private func getMatches() {
+        apiManager.getMatches() { (matches, error) in
+            if let error = error {
+                print("Get matches error: \(error.localizedDescription)")
                 return
             }
-            
-            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                print("Oops!! there is server error!")
-                return
-            }
-            
-            guard let mime = response.mimeType, mime == "application/json" else {
-                print("response is not json")
-                return
-            }
-            
-            do {
-                
-                guard let dataValue = data else { return }
-                
-                let items = try JSONDecoder().decode(WinnerDataModel.self, from: dataValue)
-                    
-                DispatchQueue.main.async {
-                        print(items)
-                }
-//
-//                let json = try JSONSerialization.jsonObject(with: data!, options: [])
-//                print("The Response is : ",json)
-            } catch {
-                print("JSON error: \(error.localizedDescription)")
-            }
-            
-        })
-        task.resume()
-        
+            guard let matches = matches else { return }
+            self.searchResult = matches
+            print("Current Matches Object:")
+            print(matches)
+        }
     }
+    
+    
+    private func getTeamInfo(teams: [Int]){
+        
+        var teamNames = ""
+        
+        apiManager.getTeams(teams: teams) { (teams, error) in
+            
+            if let error = error {
+                print("Get teams error: \(error.localizedDescription)")
+                return
+            }
+
+            //guard let teams = teams else { return }
+            print(teams)
+            
+            //let nameTeams = teams.map( { $0?.name })
+            
+            for team in teams {
+            
+                if let tm = team?.name {
+                
+                    teamNames = teamNames + "-" + tm
+                    
+                }
+                
+                
+            }
+            
+            print(teamNames)
+            
+            for team in teams {
+                
+                
+            //nameTeamsArray.append(team?.name)
+            
+                if teams.count > 1 {
+                    
+                    self.nameTeamLabel.text = teamNames
+                    self.addressLabel.text = "Many..."
+                    self.tlaLabel.text = "Many..."
+                    self.venueLabel.text = "Many..."
+                    self.websiteLabel.text = "Many..."
+    //
+                } else {
+                    
+                    self.nameTeamLabel.text = team?.name
+                    self.addressLabel.text = team?.address
+                    self.tlaLabel.text = team?.tla
+                    self.venueLabel.text = team?.venue
+                    self.websiteLabel.text = team?.website
+    //
+                }
+                
+                
+                
+                
+            }
+
+        //completion(teams, nil)
+
+        //teamsInfo.append(teams)
+
+        }
+    }
+        
+        //var teamsInfo: [Team] = []
+        
+        //for team in teams {
+  
+        //apiManager.getTeams(teams: teams)
+        
+        //print(ok)
+        
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            let kidId =  self.apiManager.getTeams(teams: teams)
+//            DispatchQueue.main.async {
+//                print(kidId)
+//            }
+//        }
+        
+//            apiManager.getTeams(teams: teams) { (teams, error) in
+//                if let error = error {
+//                    print("Get teams error: \(error.localizedDescription)")
+//                    return
+//                }
+//
+//                guard let teams = teams else { return }
+//                print(teams)
+//
+//                //completion(teams, nil)
+//
+//                //teamsInfo.append(teams)
+//
+//            }
+        //return ok
+        
+        //}
+    
+    
+        
+//        print(teamsInfo)
+        
+        
+//        self.addressLabel.text = teams.address
+//        self.tlaLabel.text = teams.tla
+//        self.venueLabel.text = teams.venue
+//        self.websiteLabel.text = teams.website
+        
+        
+ //   }
+    
+//    private func updateTeamLabels() {
+//
+//
+//
+//    }
 }

@@ -19,7 +19,7 @@ extension DateFormatter {
             var formatter = DateFormatter()
             formatter.locale = .enGB
             formatter.timeZone = .gmt
-            formatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'"
+            formatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
 
             return formatter
         }()

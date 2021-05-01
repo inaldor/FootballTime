@@ -11,17 +11,15 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "ShowWinner" {
             
-            if let destinationViewController = segue.destination as? WinnerTeamViewController
-            {
-                destinationViewController.winnerTeamViewModel = winnerTeamViewModel[1]
-            }
+            let destinationViewController = segue.destination as? WinnerTeamViewController
+
         }
         
     }
