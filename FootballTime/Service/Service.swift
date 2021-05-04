@@ -75,10 +75,15 @@ class APIManager {
                 self.createTeamsObjectWith(json: data, completion: { (teams, error) in
                     if let error = error {
                         print("Failed to convert data")
+                        
+                        myGroup.leave()
+                        
                         return
                     }
 
                     if let team = teams {
+                        
+                        print(team)
 
                         teamsInfo.append(team)
 

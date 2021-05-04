@@ -21,7 +21,7 @@
 		CDD3FB5C26335BC9006EF7D3 /* WinnerTeamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD3FB5B26335BC9006EF7D3 /* WinnerTeamViewModel.swift */; };
 		CDD3FB862634A546006EF7D3 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD3FB852634A546006EF7D3 /* Service.swift */; };
 		CDD3FB8C2634BF96006EF7D3 /* Date+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD3FB8B2634BF96006EF7D3 /* Date+Formatting.swift */; };
-		CDD3FBBD263583D7006EF7D3 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD3FBBC263583D7006EF7D3 /* Match.swift */; };
+		CDD3FBBD263583D7006EF7D3 /* Matches.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD3FBBC263583D7006EF7D3 /* Matches.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +62,7 @@
 		CDD3FB5B26335BC9006EF7D3 /* WinnerTeamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinnerTeamViewModel.swift; sourceTree = "<group>"; };
 		CDD3FB852634A546006EF7D3 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		CDD3FB8B2634BF96006EF7D3 /* Date+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatting.swift"; sourceTree = "<group>"; };
-		CDD3FBBC263583D7006EF7D3 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
+		CDD3FBBC263583D7006EF7D3 /* Matches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matches.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,7 +157,7 @@
 		CD6A4F9426331643002DFBAB /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CDD3FBBC263583D7006EF7D3 /* Match.swift */,
+				CDD3FBBC263583D7006EF7D3 /* Matches.swift */,
 				CD69A713263B08F400D95C6C /* Team.swift */,
 			);
 			path = Model;
@@ -321,7 +321,7 @@
 			files = (
 				CDD3FB862634A546006EF7D3 /* Service.swift in Sources */,
 				CDD3FB8C2634BF96006EF7D3 /* Date+Formatting.swift in Sources */,
-				CDD3FBBD263583D7006EF7D3 /* Match.swift in Sources */,
+				CDD3FBBD263583D7006EF7D3 /* Matches.swift in Sources */,
 				CD6A4F5D263219AD002DFBAB /* HomeViewController.swift in Sources */,
 				CDB218572639732B00BEB327 /* NSDate.swift in Sources */,
 				CD6A4F59263219AD002DFBAB /* AppDelegate.swift in Sources */,

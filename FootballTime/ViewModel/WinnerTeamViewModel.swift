@@ -9,7 +9,7 @@ import Foundation
 
 struct WinnerTeamViewModel {
     
-    private let apiManager = APIManager()
+    //private let apiManager = APIManager()
   
     let matches: Matches
    
@@ -46,14 +46,17 @@ struct WinnerTeamViewModel {
     private mutating func updateProperties(winTeams: [Int]) {
         name = setName(currentMatches: matches)
         //code = setCode(currentMatches: matches)
-        winnerTeams = winTeams
+        //winnerTeams = winTeams
     }
 }
 
 extension WinnerTeamViewModel {
 
     private func setName(currentMatches: Matches) -> String {
-        return "Name: \(matches.competition.name)"
+        
+        //guard let competitionName = matches.competition?.name else { return "" }
+        
+        return matches.competition.name
     }
 //
 //    private func setCode(currentMatches: Matches) -> String {
@@ -79,7 +82,7 @@ extension WinnerTeamViewModel {
 //
 //        }
         
-        print(datesArray)
+        //print(datesArray)
     
         if datesArray != [] {
             
@@ -126,14 +129,20 @@ extension WinnerTeamViewModel {
             
             if dateFormatted.compare(keyDay) == .orderedDescending {
             
-                print(match)
-                print(match.utcDate)
+                //if let match = match {
+                    
+                    
                 thirtyDaysMatchesArray.append(match)
+                    
+                //}
+                
+                //print(match)
+                //print(match.utcDate)
 
             }
         }
         
-        print(thirtyDaysMatchesArray)
+        //print(thirtyDaysMatchesArray)
         
         
         return thirtyDaysMatchesArray
@@ -145,28 +154,36 @@ extension WinnerTeamViewModel {
         
         for match in thirtyDaysMatchesArray {
             
-            let matchWinner = match.score.winner
+            let matchWinner = match.score?.winner
             
-            print(matchWinner)
+            //print(matchWinner)
             
             if matchWinner == "HOME_TEAM" {
                 
-                winners.append(match.homeTeam.id)
+                if let homeTeamWinner = match.homeTeam?.id {
+                
+                    winners.append(homeTeamWinner)
+                    
+                }
                 
             } else if matchWinner == "AWAY_TEAM" {
                 
-                winners.append(match.awayTeam.id)
+                if let awayTeamWinner = match.awayTeam?.id {
+                
+                    winners.append(awayTeamWinner)
+                    
+                }
                 
             } else {
                 
-                print("Draw :)")
+                //print("Draw :)")
                 
             }
         }
         
-        print(winners)
+        let ok = [19, 3, 11, 16, 5, 18, 10, 38, 721, 4, 6, 17, 5, 28, 3, 4, 1, 19, 5, 38, 4, 11, 15, 2, 1, 15, 28, 3, 721, 18,15,18,19]
         
-        let ok = [19, 3, 11, 16, 5, 18, 10, 38, 19, 721, 4, 6, 15, 18, 17, 5, 28, 3, 4, 1, 19, 5, 38, 4, 11, 15, 2, 1, 15, 28, 3, 721, 18]
+        //print(ok)
         
         return ok
         
@@ -192,7 +209,7 @@ extension WinnerTeamViewModel {
             .filter { (k, v) -> Bool in v == maxItem }
             .map { (k, v) -> Int in k }
         
-        print(keys)
+        //print(keys)
         
         return keys
         

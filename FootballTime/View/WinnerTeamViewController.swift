@@ -15,10 +15,9 @@ class WinnerTeamViewController: UIViewController {
     @IBOutlet weak var nameTeamLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var tlaLabel: UILabel!
-    @IBOutlet weak var websiteLabel: UILabel!
     @IBOutlet weak var venueLabel: UILabel!
     
-    var teamsInfo: [Team?] = []
+    //var teamsInfo: [Team?] = []
     
     private let apiManager = APIManager()
     
@@ -38,6 +37,7 @@ class WinnerTeamViewController: UIViewController {
                     
                 self.getTeamInfo(teams: teamsArray)
                         
+                
                         
                         //updateTeamLabels()
                         
@@ -67,15 +67,20 @@ extension WinnerTeamViewController {
     }
     
     private func getMatches() {
+        
         apiManager.getMatches() { (matches, error) in
+            
             if let error = error {
                 print("Get matches error: \(error.localizedDescription)")
+                
+                self.createAlert(errorType: error.localizedDescription)
+                
                 return
             }
             guard let matches = matches else { return }
             self.searchResult = matches
-            print("Current Matches Object:")
-            print(matches)
+            //print("Current Matches Object:")
+            //print(matches)
         }
     }
     
@@ -86,56 +91,71 @@ extension WinnerTeamViewController {
         
         apiManager.getTeams(teams: teams) { (teams, error) in
             
+            print(teams)
+            
             if let error = error {
                 print("Get teams error: \(error.localizedDescription)")
+                
+                self.createAlert(errorType: error.localizedDescription)
+                
                 return
             }
-
+            
+//            if teams.isEmpty {
+//
+//                self.createAlert(errorType: "Error when Fetching requests")
+//
+//            }
+            
             //guard let teams = teams else { return }
-            print(teams)
+            //print(teams)
             
             //let nameTeams = teams.map( { $0?.name })
             
             for team in teams {
-            
-                if let tm = team?.name {
-                
-                    teamNames = teamNames + "-" + tm
+
+                if (team?.name == nil), (team?.id == nil) {
                     
+                    self.createAlert(errorType: "Error when fetching requests")
+                    
+                } else {
+                    
+                    if let tm = team?.name {
+                    
+                        teamNames = teamNames + "\n " + tm
+                        
+                    }
                 }
-                
-                
             }
-            
-            print(teamNames)
-            
+
+
+            //print(teamNames)
+
             for team in teams {
                 
                 
             //nameTeamsArray.append(team?.name)
-            
+
                 if teams.count > 1 {
+                    //"Name: \(competitionName)"
                     
-                    self.nameTeamLabel.text = teamNames
-                    self.addressLabel.text = "Many..."
-                    self.tlaLabel.text = "Many..."
-                    self.venueLabel.text = "Many..."
-                    self.websiteLabel.text = "Many..."
-    //
+                    self.nameTeamLabel.text = "Are\(teamNames)"
+                    
                 } else {
                     
-                    self.nameTeamLabel.text = team?.name
+                    if let teamName = team?.name {
+                        
+                        self.nameTeamLabel.text = "Is\n\(teamName)"
+                        
+                    }
+                    
                     self.addressLabel.text = team?.address
                     self.tlaLabel.text = team?.tla
                     self.venueLabel.text = team?.venue
-                    self.websiteLabel.text = team?.website
-    //
+            //
                 }
-                
-                
-                
-                
             }
+
 
         //completion(teams, nil)
 
@@ -144,6 +164,25 @@ extension WinnerTeamViewController {
         }
     }
         
+    
+    func createAlert(errorType: String) {
+        
+//        let alert = UIAlertController(title: "Error", message: "\n\(errorType)\n\n Please, try again in one(1) minute.", preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+//
+//        self.present(alert, animated: true, completion: dismiss(animated: true, completion: nil))
+        
+        let refreshAlert = UIAlertController(title: "Error", message: "\n\(errorType)\n\n Please, try again in one(1) minute.", preferredStyle: UIAlertController.Style.alert)
+
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            
+            self.dismiss(animated: true, completion: nil)
+
+        }))
+
+        present(refreshAlert, animated: true, completion: nil)
+    }
+       
         //var teamsInfo: [Team] = []
         
         //for team in teams {
