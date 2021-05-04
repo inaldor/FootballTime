@@ -7,8 +7,10 @@
 
 import Foundation
 
-// MARK: - Team
 struct Team: Codable {
+    
+    // MARK: Properties
+    
     let id: Int?
     let name: String?
     let shortName: String?

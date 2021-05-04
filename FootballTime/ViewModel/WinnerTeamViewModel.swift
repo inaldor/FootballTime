@@ -9,87 +9,56 @@ import Foundation
 
 struct WinnerTeamViewModel {
     
-    //private let apiManager = APIManager()
+    // MARK: Properties
   
     let matches: Matches
    
+    /// Variables to support the fetching and processing of match and team information
     private(set) var name = ""
-    //private(set) var code = ""
     private(set) var winnerTeams: [Int] = []
     
     init(matches: Matches) {
         self.matches = matches
+        
         let winTeams = getTeamsWonMost()
         winnerTeams = winTeams
         
-        //getTeamInfo(teams: winnerTeams)
         updateProperties(winTeams: winTeams)
-    }
-    
-//    var teamResult: Team? {
-//        didSet {
-//            guard let searchResult = teamResult else { return }
-//            //winnerTeamViewModel = WinnerTeamViewModel.init(matches: searchResult)
-//            DispatchQueue.main.async {
-//                print(searchResult)
-//            }
-//
-////            DispatchQueue.main.async {
-////                print(teamResult!)
-////            }
-//
-//
-//        }
-//    }
-    
-
-    private mutating func updateProperties(winTeams: [Int]) {
-        name = setName(currentMatches: matches)
-        //code = setCode(currentMatches: matches)
-        //winnerTeams = winTeams
     }
 }
 
 extension WinnerTeamViewModel {
-
+    
+    // MARK: Imperatives
+    
+    /// Function to update the name property of this struct
+    private mutating func updateProperties(winTeams: [Int]) {
+        name = setName(currentMatches: matches)
+    }
+    
+    /// Function to update the name of the match
     private func setName(currentMatches: Matches) -> String {
-        
-        //guard let competitionName = matches.competition?.name else { return "" }
         
         return matches.competition.name
     }
-//
-//    private func setCode(currentMatches: Matches) -> String {
-//        return "Code: \(matches.competition.code)"
-//    }
     
+    /// Function to get the last competition date and return the team that won most in the last thirty days
     private func getTeamsWonMost() -> [Int] {
-        
-//        var datesArray: [Date] = []
-//
+
         var wonMostThirtyDays: [Int] = []
         
         let datesMapped = matches.matches.map( { $0.utcDate })
 
         guard let datesArray = stringToDate(dateElementString: datesMapped) as? [Date] else { return [] }
         
-//        for date in datesMapped {
-//
-//            guard let datesFormatted = DateFormatter.Default.response.date(from: date) else { return }
-//
-//            datesArray.append(datesFormatted)
-//
-//
-//        }
-        
-        //print(datesArray)
-    
         if datesArray != [] {
             
             _ = datesArray.reduce(Date.distantPast) { $0 > $1 ? $0 : $1 }
             
             guard let lastCompetitionDate = datesArray.last else { return [] }
             
+            
+            /// Calling the next functions to process data
             let lastThirtyDays = getLastThirtyDays(lastCompDate: lastCompetitionDate)
             let matchesThirtyDays = matchesLastThirtyDays(keyDay: lastThirtyDays)
             let winnerThirtyDays = winnerLastThirtyDays(thirtyDaysMatchesArray: matchesThirtyDays)
@@ -101,66 +70,46 @@ extension WinnerTeamViewModel {
         
     }
     
+    /// Function to get the last thirty days from the last competition date
     private func getLastThirtyDays(lastCompDate: Date) -> Date{
-        
-        //let matchesLastThirtyDays = matches.matches
         
         let keyDay = lastCompDate.addingTimeInterval(86400 * -30)
         
         return keyDay
         
-        //matchesLastThirtyDays(keyDay: keyDay)
-        
-        //print(keyDay)
     }
     
+    /// Function to get the matches of the last thirty days
     private func matchesLastThirtyDays(keyDay: Date) -> [Match] {
         
         var thirtyDaysMatchesArray: [Match] = []
         
-        
-//        print(teste)
-        
-        //let ok = matches.matches.map( { $0.utcDate == KEYD })
-        
         for match in matches.matches {
 
-            guard let dateFormatted = stringToDate(dateElementString: match.utcDate) as? Date else { return [] }
+            guard let dateFormatted = stringToDate(dateElementString: match.utcDate as Any) as? Date else { return [] }
             
             if dateFormatted.compare(keyDay) == .orderedDescending {
             
-                //if let match = match {
-                    
-                    
                 thirtyDaysMatchesArray.append(match)
-                    
-                //}
-                
-                //print(match)
-                //print(match.utcDate)
 
             }
         }
         
-        //print(thirtyDaysMatchesArray)
-        
-        
         return thirtyDaysMatchesArray
     }
     
+    /// Function to get the Id of the teams that won in the last thirty days
     private func winnerLastThirtyDays(thirtyDaysMatchesArray: [Match]) -> [Int] {
         
         var winners: [Int] = []
         
         for match in thirtyDaysMatchesArray {
             
-            let matchWinner = match.score?.winner
-            
-            //print(matchWinner)
+            let matchWinner = match.score.winner
             
             if matchWinner == "HOME_TEAM" {
                 
-                if let homeTeamWinner = match.homeTeam?.id {
+                if let homeTeamWinner = match.homeTeam.id {
                 
                     winners.append(homeTeamWinner)
                     
@@ -168,7 +117,7 @@ extension WinnerTeamViewModel {
                 
             } else if matchWinner == "AWAY_TEAM" {
                 
-                if let awayTeamWinner = match.awayTeam?.id {
+                if let awayTeamWinner = match.awayTeam.id {
                 
                     winners.append(awayTeamWinner)
                     
@@ -176,19 +125,16 @@ extension WinnerTeamViewModel {
                 
             } else {
                 
-                //print("Draw :)")
+                print("Draw :)")
                 
             }
         }
         
-        let ok = [19, 3, 11, 16, 5, 18, 10, 38, 721, 4, 6, 17, 5, 28, 3, 4, 1, 19, 5, 38, 4, 11, 15, 2, 1, 15, 28, 3, 721, 18,15,18,19]
-        
-        //print(ok)
-        
-        return ok
+        return winners
         
     }
     
+    /// Function to calculate the team that won most in the last thirty days
     private func findWonMostThirtyDays(winners: [Int]) -> [Int] {
         
         var counts: [Int: Int] = [:]
@@ -209,13 +155,12 @@ extension WinnerTeamViewModel {
             .filter { (k, v) -> Bool in v == maxItem }
             .map { (k, v) -> Int in k }
         
-        //print(keys)
-        
         return keys
         
     }
     
     
+    /// Function to convert a date in String type to a date in Date type
     private func stringToDate(dateElementString: Any) -> Any {
         
         var result: Any?
@@ -244,5 +189,4 @@ extension WinnerTeamViewModel {
 
         return result as Any
     }
- 
 }

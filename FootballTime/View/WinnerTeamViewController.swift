@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Class to display the main information of the app
 class WinnerTeamViewController: UIViewController {
 
     // MARK: Properties
@@ -17,39 +18,29 @@ class WinnerTeamViewController: UIViewController {
     @IBOutlet weak var tlaLabel: UILabel!
     @IBOutlet weak var venueLabel: UILabel!
     
-    //var teamsInfo: [Team?] = []
-    
     private let apiManager = APIManager()
     
     private(set) var winnerTeamViewModel: WinnerTeamViewModel?
     
+    /// A didset variable to be triggered after fetch of the matches of a single league
     var searchResult: Matches? {
+        
         didSet {
             guard let searchResult = searchResult else { return }
             winnerTeamViewModel = WinnerTeamViewModel.init(matches: searchResult)
+            
             DispatchQueue.main.async {
+                
                 self.updateLabels()
-                //self.getTeamInfo(teams: self.winnerTeamViewModel?.winnerTeams ?? [])
-                
                 let teamsArray = self.winnerTeamViewModel?.winnerTeams ?? []
-                
-                //for team in teamsArray {
-                    
                 self.getTeamInfo(teams: teamsArray)
-                        
                 
-                        
-                        //updateTeamLabels()
-                        
-                        //teamsInfo.append(teams!)
-                    
-                        
-                        
-                        //})
-                //}
             }
+            
         }
     }
+    
+    // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,11 +52,17 @@ class WinnerTeamViewController: UIViewController {
     
 extension WinnerTeamViewController {
     
+    // MARK: Imperatives
+    
+    /// Function responsible to update the label with the league's name
     private func updateLabels() {
+        
         guard let winnerTeamViewModel = winnerTeamViewModel else { return }
         nameLabel.text = winnerTeamViewModel.name
+    
     }
     
+    /// Function responsible to request the matches of a single league
     private func getMatches() {
         
         apiManager.getMatches() { (matches, error) in
@@ -77,14 +74,14 @@ extension WinnerTeamViewController {
                 
                 return
             }
+            
             guard let matches = matches else { return }
             self.searchResult = matches
-            //print("Current Matches Object:")
-            //print(matches)
+            
         }
     }
     
-    
+    /// Function responsible to request and display the team information of the given team Ids
     private func getTeamInfo(teams: [Int]){
         
         var teamNames = ""
@@ -101,17 +98,7 @@ extension WinnerTeamViewController {
                 return
             }
             
-//            if teams.isEmpty {
-//
-//                self.createAlert(errorType: "Error when Fetching requests")
-//
-//            }
-            
-            //guard let teams = teams else { return }
-            //print(teams)
-            
-            //let nameTeams = teams.map( { $0?.name })
-            
+            /// Check if any element of the array of teams was failed to be fetched(has nil value on all values)
             for team in teams {
 
                 if (team?.name == nil), (team?.id == nil) {
@@ -128,16 +115,10 @@ extension WinnerTeamViewController {
                 }
             }
 
-
-            //print(teamNames)
-
+            /// Displaying team information on labels according to the quantity
             for team in teams {
-                
-                
-            //nameTeamsArray.append(team?.name)
 
                 if teams.count > 1 {
-                    //"Name: \(competitionName)"
                     
                     self.nameTeamLabel.text = "Are\(teamNames)"
                     
@@ -152,25 +133,15 @@ extension WinnerTeamViewController {
                     self.addressLabel.text = team?.address
                     self.tlaLabel.text = team?.tla
                     self.venueLabel.text = team?.venue
-            //
+            
                 }
             }
-
-
-        //completion(teams, nil)
-
-        //teamsInfo.append(teams)
-
         }
     }
         
-    
+    /// Function responsible to create and display an alert to give a feedback to the user when the request was not successful
+
     func createAlert(errorType: String) {
-        
-//        let alert = UIAlertController(title: "Error", message: "\n\(errorType)\n\n Please, try again in one(1) minute.", preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-//
-//        self.present(alert, animated: true, completion: dismiss(animated: true, completion: nil))
         
         let refreshAlert = UIAlertController(title: "Error", message: "\n\(errorType)\n\n Please, try again in one(1) minute.", preferredStyle: UIAlertController.Style.alert)
 
@@ -181,57 +152,6 @@ extension WinnerTeamViewController {
         }))
 
         present(refreshAlert, animated: true, completion: nil)
+    
     }
-       
-        //var teamsInfo: [Team] = []
-        
-        //for team in teams {
-  
-        //apiManager.getTeams(teams: teams)
-        
-        //print(ok)
-        
-//        DispatchQueue.global(qos: .userInitiated).async {
-//            let kidId =  self.apiManager.getTeams(teams: teams)
-//            DispatchQueue.main.async {
-//                print(kidId)
-//            }
-//        }
-        
-//            apiManager.getTeams(teams: teams) { (teams, error) in
-//                if let error = error {
-//                    print("Get teams error: \(error.localizedDescription)")
-//                    return
-//                }
-//
-//                guard let teams = teams else { return }
-//                print(teams)
-//
-//                //completion(teams, nil)
-//
-//                //teamsInfo.append(teams)
-//
-//            }
-        //return ok
-        
-        //}
-    
-    
-        
-//        print(teamsInfo)
-        
-        
-//        self.addressLabel.text = teams.address
-//        self.tlaLabel.text = teams.tla
-//        self.venueLabel.text = teams.venue
-//        self.websiteLabel.text = teams.website
-        
-        
- //   }
-    
-//    private func updateTeamLabels() {
-//
-//
-//
-//    }
 }

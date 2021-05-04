@@ -32,9 +32,9 @@ struct Match: Decodable {
     // MARK: Properties
 
     let utcDate: String?
-    let score: Score?
-    let homeTeam: Area?
-    let awayTeam: Area?
+    let score: Score
+    let homeTeam: Area
+    let awayTeam: Area
 
 }
 
